@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import weight.IWeightInterfaceController;
 import weight.IWeightInterfaceObserver;
+import weight.KeyPress;
 
 public class WeightInterfaceControllerGUI implements IWeightInterfaceController {
 	private static WeightInterfaceControllerGUI instance;
@@ -48,10 +49,12 @@ public class WeightInterfaceControllerGUI implements IWeightInterfaceController 
 	@Override
 	public void setSoftButtonTexts(String[] texts) {
 		int firstSoftkey = 0;
+		if (texts == null) {
+			texts = new String[0];
+		}
 		boolean[] sftkeysChecked = new boolean[texts.length];
 		Arrays.fill(sftkeysChecked, false);
 		fxApp.softkeysShow(texts, firstSoftkey, sftkeysChecked);
-		
 	}
 	
 	
@@ -60,25 +63,36 @@ public class WeightInterfaceControllerGUI implements IWeightInterfaceController 
 		for (IWeightInterfaceObserver o : observers) {
 			o.notifyWeightChange(newValue / 1000);
 		}
-		
 	}
-	public void onTaraButtonPressed() {
+	void onExitButtonPressed() {
 		for (IWeightInterfaceObserver o : observers) {
-			//TODO implement KeyPress
-			o.notifyKeyPress(null);
+			o.notifyKeyPress(KeyPress.Exit());
+		}
+	}
+	void onZeroButtonPressed() {
+		for (IWeightInterfaceObserver o : observers) {
+			o.notifyKeyPress(KeyPress.Zero());
+		}
+	}
+	void onTaraButtonPressed() {
+		for (IWeightInterfaceObserver o : observers) {
+			o.notifyKeyPress(KeyPress.Tara());
 		}
 		
 	}
-	public void onZeroButtonPressed() {
+	void onSendButtonPressed() {
 		for (IWeightInterfaceObserver o : observers) {
-			//TODO implement Keypress
-			o.notifyKeyPress(null);
+			o.notifyKeyPress(KeyPress.Send());
 		}
 	}
 	public void onNumBtnPressed(char btn){
 		for (IWeightInterfaceObserver o : observers) {
-			//TODO implement KeyPress
-			o.notifyKeyPress(null);
+			o.notifyKeyPress(KeyPress.Character(btn));
+		}
+	}
+	public void onSoftBtnPressed(int i) {
+		for (IWeightInterfaceObserver o : observers) {
+			o.notifyKeyPress(KeyPress.SoftButton(i));
 		}
 	}
 	

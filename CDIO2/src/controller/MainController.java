@@ -19,14 +19,14 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	private IWeightInterfaceController weightController;
 	private KeyState keyState = KeyState.K1;
 
-	public MainController(ISocketController socketHandler, IWeightInterfaceController uiController) {
-		this.init(socketHandler, uiController);
+	public MainController(ISocketController socketHandler, IWeightInterfaceController weightInterfaceController) {
+		this.init(socketHandler, weightInterfaceController);
 	}
 
 	@Override
-	public void init(ISocketController socketHandler, IWeightInterfaceController uiController) {
+	public void init(ISocketController socketHandler, IWeightInterfaceController weightInterfaceController) {
 		this.socketHandler = socketHandler;
-		this.weightController=uiController;
+		this.weightController=weightInterfaceController;
 	}
 
 	@Override
