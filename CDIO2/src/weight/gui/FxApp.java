@@ -240,7 +240,6 @@ public class FxApp extends Application {
 			}
 		});
 	}
-	
 	public void softkeysHide() {
 		for(Text t : txtsft) { t.setText(""); }
 	}
@@ -342,14 +341,5 @@ public class FxApp extends Application {
 			lastTimePressed = -1;
 			btnValue = '_';
 		}
-
 	}
-
-
-
-
-
-
-
-
 }

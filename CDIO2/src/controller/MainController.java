@@ -14,6 +14,7 @@ import weight.KeyPress;
  *
  */
 public class MainController implements IMainController, ISocketObserver, IWeightInterfaceObserver {
+	public enum KeyState { K1, K2,K3,K4 }
 
 	private ISocketController socketHandler;
 	private IWeightInterfaceController weightController;
@@ -37,8 +38,6 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 			//Starts socketHandler in own thread
 			new Thread(socketHandler).start();
 			//TODO set up weightController - Look above for inspiration (Keep it simple ;))
-
-
 		} else {
 			System.err.println("No controllers injected!");
 		}
@@ -47,28 +46,29 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	//Listening for socket input
 	@Override
 	public void notify(SocketInMessage message) {
+		// TODO handle eache type of command. (Remember that the weight might not be ready for input)
 		switch (message.getType()) {
 		case B:
+			break;
+		case Q:
 			break;
 		case D:
 			weightController.showMessagePrimaryDisplay(message.getMessage()); 
 			break;
-		case Q:
-			break;
-		case RM204:
-			break;
-		case RM208:
+		case DW:
 			break;
 		case S:
 			break;
 		case T:
 			break;
-		case DW:
+		case P111:
+			break;
+		case RM204:
+			break;
+		case RM208:
 			break;
 		case K:
 			handleKMessage(message);
-			break;
-		case P111:
 			break;
 		}
 
@@ -93,6 +93,7 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 			break;
 		}
 	}
+	
 	//Listening for UI input
 	@Override
 	public void notifyKeyPress(KeyPress keyPress) {
@@ -116,13 +117,10 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 			}
 			break;
 		}
-
 	}
 
 	@Override
 	public void notifyWeightChange(double newWeight) {
 		// TODO Auto-generated method stub
-
 	}
-
 }
