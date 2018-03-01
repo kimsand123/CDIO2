@@ -28,11 +28,11 @@ public class HandleWeightCTRL {
 		socketCTRL.sendMessage(new SocketOutMessage("DW crlf"));
 	}
 	
-	public void setInputString(String msg) {
-		socketCTRL.sendMessage(new SocketOutMessage());
-	}
+//	public void setInputString(String msg) {
+//		socketCTRL.sendMessage(new SocketOutMessage());
+//	}
 	
-	public String getInput() {
-		return new SocketInMessage(RM20, "RM20 8 " + msg + "\""+ "\"" + "\"&3" + "\"" +  " crlf")
-	}
+//	public String getInput() {
+//		return socketCTRL.sendMessage(new SocketInMessage(RM20, "RM20 8 " + msg + "\""+ "\"" + "\"&3" + "\"" +  " crlf"));
+//	}
 }

@@ -1,5 +1,7 @@
 package controller;
 
+import java.io.IOException;
+
 import socket.ISocketController;
 import socket.ISocketObserver;
 import socket.SocketInMessage;
@@ -19,9 +21,14 @@ public class MainController implements IMainController, ISocketObserver, IWeight
 	private ISocketController socketHandler;
 	private IWeightInterfaceController weightController;
 	private KeyState keyState = KeyState.K1;
-
-	public MainController(ISocketController socketHandler, IWeightInterfaceController weightInterfaceController) {
+	private WeighCTRL weight;
+	
+	public MainController(ISocketController socketHandler, IWeightInterfaceController weightInterfaceController) throws IOException{
 		this.init(socketHandler, weightInterfaceController);
+	
+//		new WeighCTRL();
+			
+		
 	}
 
 	@Override

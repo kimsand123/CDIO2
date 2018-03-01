@@ -1,11 +1,14 @@
 package socket;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +19,13 @@ public class SocketController implements ISocketController {
 	private BufferedReader inStream;
 	private PrintWriter outStream;
 	//TODO Maybe add some way to keep track of multiple connections?
+	String hostname = "localhost";
+	int port = 8000;
+	Socket socket = null;
 
+	public SocketController() throws IOException{
+
+	}
 
 	@Override
 	public void registerObserver(ISocketObserver observer) {
@@ -34,36 +43,31 @@ public class SocketController implements ISocketController {
 			socketObserver.notify(message);
 		}
 	}
-	
+
 	@Override
 	public void sendMessage(SocketOutMessage message) {
 		String msg = message.getMessage();
-		int pointInString = 0;
-		
 		if (outStream!=null){
 			System.out.println(msg + "  Is sent over socket");
-			while(pointInString <= msg.length()) {
-				
-			}
-			
-			//TODO send something over the socket! 
+			outStream.write(msg);
 		} else {
 			//TODO maybe tell someone that connection is closed?
 		}
 	}
 
+
 	@Override
 	public String getMessage(String type, String message) {
 		String returnValue = "";
-			if (inStream!=null) {
-				//TODO recieve something from socket
-			} else {
-				//TODO maybe tell someone that connection is closed or nothing is there?
-			}
-		
+		if (inStream!=null) {
+			//TODO recieve something from socket
+		} else {
+			//TODO maybe tell someone that connection is closed or nothing is there?
+		}
+
 		return returnValue;
 	}
-	
+
 	@Override
 	public void run() {
 		//TODO some logic for listening to a socket //(Using try with resources for auto-close of socket)
@@ -77,6 +81,35 @@ public class SocketController implements ISocketController {
 		} 
 
 
+	}
+	
+	public void openSocket() throws IOException {
+		try {
+			socket = new Socket(hostname,port);
+			outStream = new PrintWriter(socket.getOutputStream(), true);
+			inStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			
+		} catch (UnknownHostException e) {
+			System.err.print("Kender ikke hosten:" + hostname);
+		} catch (IOException e) {
+			System.err.print("Kunne ikke få I/O for forbindelsen til: "+ hostname);
+		} finally {
+			if(!(socket.isClosed())) {
+				socket.close();
+			}
+		}
+	}
+	
+	public PrintWriter getOutStream() {
+		return this.outStream;
+	}
+	
+	public BufferedReader getInStream() {
+		return this.inStream;
+	}
+	
+	public Socket getSocket() {
+		return this.socket;
 	}
 
 	private void waitForConnections(ServerSocket listeningSocket) {
