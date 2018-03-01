@@ -8,4 +8,5 @@ public interface ISocketController extends Runnable{
 	void notifyObservers(SocketInMessage message);
 	
 	void sendMessage(SocketOutMessage message);
+	String getMessage(String type, String message);
 }
